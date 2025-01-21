@@ -10,3 +10,7 @@ Technos utilisés :
 - PostgreSQL pour la base de données
 - Docker compose
 
+
+# Mise en place
+
+Changer les variables DB_USER et DB_PASSWORD dans le fichier .env.example puis renommez le en .env
