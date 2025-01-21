@@ -1,5 +1,5 @@
 # backend/Dockerfile
-FROM node:18-alpine
+FROM node:18
 
 # Créer un répertoire pour l’application
 WORKDIR /usr/src/app
