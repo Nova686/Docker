@@ -6,11 +6,8 @@ function Gallery() {
   const token = localStorage.getItem('token') || '';
 
   useEffect(() => {
-    // Récupérer la liste des images
     axios.get('http://localhost:4000/images')
-      .then(res => {
-        setImages(res.data);
-      })
+      .then(res => setImages(res.data))
       .catch(err => console.log(err));
   }, []);
 
@@ -20,13 +17,11 @@ function Gallery() {
         `http://localhost:4000/images/${imageId}/like`,
         {}, 
         {
-          headers: {
-            'Authorization': `Bearer ${token}`
-          }
+          headers: { 'Authorization': `Bearer ${token}` }
         }
       );
       alert('Liked!');
-    } catch (error) {
+    } catch {
       alert('Erreur lors du like');
     }
   };
@@ -37,27 +32,29 @@ function Gallery() {
         `http://localhost:4000/images/${imageId}/dislike`,
         {},
         {
-          headers: {
-            'Authorization': `Bearer ${token}`
-          }
+          headers: { 'Authorization': `Bearer ${token}` }
         }
       );
       alert('Disliked!');
-    } catch (error) {
+    } catch {
       alert('Erreur lors du dislike');
     }
   };
 
   return (
-    <div>
-      <h2>Gallery</h2>
-      <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+    <div className="container mt-5">
+      <h2 className="text-center mb-4">Gallery</h2>
+      <div className="row">
         {images.map(img => (
-          <div key={img.id} style={{ margin: 10 }}>
-            <img src={img.url} alt={img.description} width="200" />
-            <p>{img.description}</p>
-            <button onClick={() => handleLike(img.id)}>Like</button>
-            <button onClick={() => handleDislike(img.id)}>Dislike</button>
+          <div key={img.id} className="col-md-4 mb-4">
+            <div className="card">
+              <img src={img.url} className="card-img-top" alt={img.description} />
+              <div className="card-body">
+                <p className="card-text">{img.description}</p>
+                <button className="btn btn-success me-2" onClick={() => handleLike(img.id)}>Like</button>
+                <button className="btn btn-danger" onClick={() => handleDislike(img.id)}>Dislike</button>
+              </div>
+            </div>
           </div>
         ))}
       </div>

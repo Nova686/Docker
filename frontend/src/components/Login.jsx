@@ -9,39 +9,41 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post('http://localhost:4000/auth/login', {
-        email,
-        password
-      });
-      // Enregistrer le token dans le Local Storage ou un cookie
+      const res = await axios.post('http://localhost:4000/auth/login', { email, password });
       localStorage.setItem('token', res.data.token);
       setMessage('Connexion réussie !');
-    } catch (error) {
+    } catch {
       setMessage('Erreur de connexion');
     }
   };
 
   return (
-    <div>
-      <h2>Login</h2>
-      <form onSubmit={handleSubmit}>
-        <input 
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={e => setEmail(e.target.value)}
-          required
-        />
-        <input 
-          type="password"
-          placeholder="Mot de passe"
-          value={password}
-          onChange={e => setPassword(e.target.value)}
-          required
-        />
-        <button type="submit">Se connecter</button>
+    <div className="container mt-5">
+      <h2 className="text-center mb-4">Login</h2>
+      <form className="mx-auto" style={{ maxWidth: '400px' }} onSubmit={handleSubmit}>
+        <div className="mb-3">
+          <input 
+            type="email" 
+            className="form-control" 
+            placeholder="Email"
+            value={email}
+            onChange={e => setEmail(e.target.value)} 
+            required 
+          />
+        </div>
+        <div className="mb-3">
+          <input 
+            type="password" 
+            className="form-control" 
+            placeholder="Mot de passe"
+            value={password}
+            onChange={e => setPassword(e.target.value)} 
+            required 
+          />
+        </div>
+        <button type="submit" className="btn btn-primary w-100">Se connecter</button>
       </form>
-      <p>{message}</p>
+      {message && <p className="text-center mt-3">{message}</p>}
     </div>
   );
 }
