@@ -23,7 +23,6 @@ module.exports = (pool) => {
   const register = async (req, res) => {
     try {
       const { email, password } = req.body;
-
       // Vérification si l'utilisateur existe déjà
       const checkUser = await pool.query('SELECT * FROM users WHERE email = $1', [email]);
       if (checkUser.rows.length > 0) {
@@ -41,7 +40,7 @@ module.exports = (pool) => {
 
       return res.status(201).json({ message: 'Utilisateur créé avec succès' });
     } catch (error) {
-      console.error(error);
+      console.error("register",error);
       return res.status(500).json({ message: 'Erreur serveur' });
     }
   };

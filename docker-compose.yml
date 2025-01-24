@@ -1,6 +1,6 @@
 services:
   db:
-    image: postgres:15
+    image: postgres
     container_name: postgres_container
     restart: always
     environment:
@@ -8,12 +8,10 @@ services:
       POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_DB: ${DB_DATABASE}
     volumes:
-      - db_data:/var/lib/postgresql/data
+      - dbdata:/var/lib/postgresql/data
       - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
     ports:
       - "5432:5432"
-    networks:
-      - backend-network
 
   backend:
     build: 
@@ -21,16 +19,15 @@ services:
       dockerfile: Dockerfile
     container_name: backend_container
     environment:
-      DB_HOST: ${DB_HOST}
-      DB_USER: ${DB_USER}
-      DB_PASSWORD: ${DB_PASSWORD}
-      DB_DATABASE: ${DB_DATABASE}
+      - DATABASE_URL=postgresql://${DB_USER}:${DB_PASSWORD}@db:5432/${DB_DATABASE}
+      - DB_USER=${DB_USER}
+      - DB_HOST=${DB_HOST}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_DATABASE=${DB_DATABASE}
     ports:
       - "4000:4000"
     depends_on:
       - db
-    networks:
-      - backend-network
 
   frontend:
     build:
@@ -41,12 +38,6 @@ services:
       - "3000:3000"
     depends_on:
       - backend
-    networks:
-      - backend-network
 
 volumes:
-  db_data:
-
-networks:
-  backend-network:
-    driver: bridge
+  dbdata:
