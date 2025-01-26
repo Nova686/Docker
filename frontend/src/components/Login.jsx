@@ -12,8 +12,13 @@ function Login() {
       const res = await axios.post('http://localhost:4000/auth/login', { email, password });
       localStorage.setItem('token', res.data.token);
       setMessage('Connexion réussie !');
-    } catch {
-      setMessage('Erreur de connexion');
+    } catch (error) {
+      if(error.rseponse.data.message =="Identifiants invalides"){
+        setMessage("adresse mail ou mot de passe incorrect")
+      }
+      else{
+        setMessage('Erreur de connexion');
+      }
     }
   };
 

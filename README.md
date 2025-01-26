@@ -13,7 +13,7 @@ Technos utilisés :
 
 # Mise en place
 
-Changer les variables DB_USER et DB_PASSWORD dans le fichier .env.example puis renommez le en .env
+Changer les variables DB_USER et DB_PASSWORD avec voss identifiants de connexion postgresql dans le fichier .env.example puis renommez le en .env
 Tapez ensuite la commande `docker-compose up --build -d` dans le terminal à la racine du projet.
 
 # Structure Docker
@@ -23,5 +23,7 @@ Dans le projet, nous avons 3 containers :
 - Un pour le back qui build une image spécifiée dans le Dockerfile présent dans le dossier backend
 - Un pour la base de données qui build une image postgresql officielle
 
-Au niveau des réseaux, nous avons mis en place deux réseaux. D'un côté un réseau (frontend-network) pour la bdd et backend et d'un autre côté, un autre réseau (frontend-network) pour le frontend et le backend. Cela nous permettra d'ajouter une couche de sécurité pour la base de données.
+Aucun réseau n'a été spécifié dans le docker-compose ce qui permet de laisser docker créer un network automatiquement comprenant tous les conteneurs.
+
+Nous avons deux volumes pour la base de données : un volume pour l'initialisation qui se lance à l'initialisation du conteneur et un volume pour persister les données lors de l'arrêt du conteneur.
 

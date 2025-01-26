@@ -6,10 +6,11 @@ function Gallery() {
   const token = localStorage.getItem('token') || '';
 
   useEffect(() => {
-    axios.get('https://api.unsplash.com/photos/random?client_id=nJpedc5nw_yajfU-EInqACpZjFLYsMmvLUbDRcebLVw', {params:
+    axios.get('https://api.unsplash.com/photos/random?client_id=nJpedc5nw_yajfU-EInqACpZjFLYsMmvLUbDRcebLVw', {
+      params:
       {
-        count:5, 
-        orientation:"portrait"
+        count: 5,
+        orientation: "portrait"
       }
     })
       .then(res => setImages(res.data))
@@ -20,35 +21,44 @@ function Gallery() {
     try {
       await axios.post(
         `http://localhost:4000/images/${image.id}/like`,
-        {}, 
+        {
+          url: image.urls.regular
+        },
         {
           headers: { 'Authorization': `Bearer ${token}` },
-          body: {
-            url:image.urls.regular
-          }
+
         }
       );
       alert('Liked!');
     } catch {
-      alert('Erreur lors du like');
+      if(!token){
+        alert('Veuillez vous connecter');
+      }
+      else{
+        alert('Erreur lors du like');
+      }
     }
   };
 
-  const handleDislike = async (imageId) => {
+  const handleDislike = async (image) => {
     try {
       await axios.post(
-        `http://localhost:4000/images/${imageId}/dislike`,
-        {},
+        `http://localhost:4000/images/${image.id}/dislike`,
+        {
+          url: image.urls.regular
+        },
         {
           headers: { 'Authorization': `Bearer ${token}` },
-          body: {
-            url:image.urls.regular
-          }
         }
       );
       alert('Disliked!');
     } catch {
-      alert('Erreur lors du dislike');
+      if(!token){
+        alert('Veuillez vous connecter');
+      }
+      else{
+        alert('Erreur lors du dislike');
+      }
     }
   };
 
